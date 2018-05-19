@@ -1,0 +1,19 @@
+{
+  "name": "dom-arch/dom-assembly",
+  "license": "MIT",
+  "description": "A simple DOM wrapper",
+  "authors": [
+    {
+      "name": "Lcfvs",
+      "email": "michael.rouges@gmail.com"
+    }
+  ],
+  "require": {
+    "php": ">=7.0.1"
+  },
+  "autoload": {
+    "psr-4": {
+      "DOMAssembly\\": "lib"
+    }
+  }
+}
