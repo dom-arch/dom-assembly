@@ -10,6 +10,10 @@ namespace DOMAssembly\HTML {
 
     use DOMAssembly\Assembly;
     use DOMAssembly\DOM;
+    use DOMAssembly\HTML\Attr\HrefAttr;
+    use DOMAssembly\HTML\Attr\HrefLangAttr;
+    use DOMAssembly\HTML\Attr\LangAttr;
+    use DOMAssembly\HTML\Attr\SrcLangAttr;
     use DOMAssembly\Translator\TranslatorInterface;
 
     class Document
@@ -127,8 +131,21 @@ namespace DOMAssembly\HTML {
             $node = $assembly->getNode();
             $items = $this->getXpath()->query('//text()|//@*', $node);
 
-            while ($items->item($i)) {
-                $items->item($i)->getAssembly()->translate($translator);
+            /**
+             * @var DOM\Text|DOM\Attribute $item
+             */
+            while ($item = $items->item($i)) {
+                $assembly = $item->getAssembly();
+                $parent = $assembly->getParent();
+                $locale = ($assembly instanceof HrefAttr && $parent->get(HrefLangAttr::NAME))
+                ?: ($assembly instanceof SrcLangAttr && $parent->get(SrcLangAttr::NAME));
+
+                while (!$locale && $parent) {
+                    $locale = $parent->get(LangAttr::NAME);
+                    $parent = $parent->getParent();
+                }
+
+                $assembly->translate($translator, $locale);
 
                 $i += 1;
             }

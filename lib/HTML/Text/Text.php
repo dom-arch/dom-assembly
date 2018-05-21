@@ -11,11 +11,12 @@ namespace DOMAssembly\HTML {
 
     use DOMAssembly\Assembly;
     use DOMAssembly\DOM;
+    use DOMAssembly\Translator\TranslatableInterface;
     use DOMAssembly\Translator\TranslatorInterface;
 
     class Text
         extends Assembly
-        implements EmbeddableInterface, PhrasingInterface
+        implements EmbeddableInterface, PhrasingInterface, TranslatableInterface
     {
         use TranslatableNodeTrait;
 

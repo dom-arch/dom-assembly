@@ -61,11 +61,10 @@ $html = $document->toString(bool $beautify = false);
 
 ```php
 use DOMAssembly\ {
-    Assembly,
-    HTML\Attr\LangAttr,
     HTML\Document,
     HTML\Tag,
     HTML\Text,
+    Translator\TranslatableInterface,
     Translator\TranslatorInterface
 };
 
@@ -73,17 +72,10 @@ class Translator
     implements TranslatorInterface
 {
     public function translate(
-        Assembly $node
+        TranslatableInterface $node,
+        string $locale = null
     )
     {
-        $locale = null;
-        $parent = $node->getParent();
-
-        while (!$locale && $parent) {
-            $locale = $parent->get(LangAttr::NAME);
-            $parent = $parent->getParent();
-        }
-
         $sprintf_params = $node->getSprintfParams();
         $format = $node->toString();
 
@@ -93,7 +85,7 @@ class Translator
 
 echo ($doc = Document::create())
     ->append(Tag\HtmlTag::of($doc)
-        ->setLang('fr')
+        ->setLang('en')
         ->append(Tag\HeadTag::of($doc)
             ->append(Tag\MetaTag::of($doc)
                 ->setCharsetUTF8())

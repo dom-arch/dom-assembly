@@ -10,10 +10,12 @@ namespace DOMAssembly\HTML {
 
     use DOMAssembly\Assembly;
     use DOMAssembly\DOM;
+    use DOMAssembly\Translator\TranslatableInterface;
     use DOMAssembly\Translator\TranslatorInterface;
 
     abstract class Attr
         extends Assembly
+        implements TranslatableInterface
     {
         /**
          * @var DOM\Attribute $node
