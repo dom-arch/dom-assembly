@@ -155,11 +155,7 @@ namespace DOMAssembly\HTML {
             TranslatorInterface $translator
         ) : TranslatableInterface
         {
-            if (is_null($this->sprintfParams)) {
-                return $this;
-            }
-
-            $translator->translate($this);
+            $this->getDocument()->translate($translator, $this);
 
             return $this;
         }
