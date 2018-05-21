@@ -71,6 +71,27 @@ use DOMAssembly\ {
 class Translator
     implements TranslatorInterface
 {
+    /**
+     * @var array
+     */
+    private $translations = [];
+
+    /**
+     * Translator constructor.
+     * @param array $translations
+     */
+    public function __construct(
+        array $translations
+    )
+    {
+        $this->translations = $translations;
+    }
+
+    /**
+     * @param TranslatableInterface $node
+     * @param string|null $locale
+     * @return string
+     */
     public function translate(
         TranslatableInterface $node,
         string $locale = null
@@ -78,8 +99,9 @@ class Translator
     {
         $sprintf_params = $node->getSprintfParams();
         $format = $node->toString();
+        $translation = $this->translations[$locale][$format] ?? $format;
 
-        return sprintf($format, ...$sprintf_params);
+        return sprintf($translation, ...$sprintf_params);
     }
 }
 

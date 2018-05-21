@@ -15,11 +15,11 @@ namespace DOMAssembly\Translator {
          */
         public function translate(
             TranslatorInterface $translator
-        );
+        ) : TranslatableInterface;
 
         /**
          * @return string
          */
-        public function toString();
+        public function toString() : string;
     }
 }

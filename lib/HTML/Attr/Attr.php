@@ -136,7 +136,8 @@ namespace DOMAssembly\HTML {
          */
         public function translate(
             TranslatorInterface $translator
-        ) {
+        ) : TranslatableInterface
+        {
             $params = $this->sprintfParams;
 
             if (is_null($params)) {
@@ -151,11 +152,11 @@ namespace DOMAssembly\HTML {
         /**
          * @return string
          */
-        public function toString()
+        public function toString() : string
         {
             $node = $this->getNode();
 
-            return $node->value;
+            return $node->value ?? '';
         }
     }
 }
