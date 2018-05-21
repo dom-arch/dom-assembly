@@ -86,8 +86,8 @@ class Translator
 
         $sprintf_params = $node->getSprintfParams();
         $format = $node->toString();
-        $text = sprintf($format, ...$sprintf_params);
-        $node->getNode()->nodeValue = $text;
+
+        return sprintf($format, ...$sprintf_params);
     }
 }
 
