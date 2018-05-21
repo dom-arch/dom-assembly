@@ -85,7 +85,7 @@ class Translator
 
 echo ($doc = Document::create())
     ->append(Tag\HtmlTag::of($doc)
-        ->setLang('en')
+        ->setLang('fr')
         ->append(Tag\HeadTag::of($doc)
             ->append(Tag\MetaTag::of($doc)
                 ->setCharsetUTF8())
@@ -97,16 +97,24 @@ echo ($doc = Document::create())
                     ->append(Text::of($doc, 'My page number %1$s !!!', [1]))))
             ->append(Tag\MainTag::of($doc)
                 ->append(Tag\H1Tag::of($doc)
-                    ->append(Text::of($doc, 'My section Title', [])))
+                    ->append(Text::of($doc, 'My section title', [])))
                 ->append(Tag\PTag::of($doc)
-                    ->append(Text::of($doc, 'My paragraph\'s text number %1$s', [1]))
-                        ->setTitle('My paragraph %1$s title', [1]))
-                    ->append(Tag\BrTag::of($doc))
-                    ->append(Text::of($doc, 'My paragraph\'s text number %1$s', [2])))
+                    ->append(Text::of($doc, 'My paragraph\'s %1$s text number %2$s', [1, 1]))
+                        ->setTitle('My paragraph %1$s title', [1])
+                        ->append(Tag\BrTag::of($doc))
+                        ->append(Text::of($doc, 'My paragraph\'s %1$s text number %2$s', [1, 2]))))
             ->append(Tag\FooterTag::of($doc)
                 ->append(Tag\PTag::of($doc)
                     ->append(Text::of($doc, 'Powered by %1$s', ['Lcf.vs']))))))
-    ->translate(new Translator())
+    ->translate(new Translator([
+        'fr' => [
+            'My page number %1$s !!!' => 'Ma page n°%1$s',
+            'My section title' => 'Titre de ma section',
+            'My paragraph %1$s title' => 'Titre de mon paragraphe %1$s',
+            'My paragraph\'s %1$s text number %2$s' => 'Texte %2$s de mon paragraphe %1$s',
+            'Powered by %1$s' => 'Propulsé par %1$s'
+        ]
+    ]))
     ->toString(2);
 ```
 
@@ -116,17 +124,19 @@ echo ($doc = Document::create())
 <html lang="fr">
   <head>
     <meta charset="utf-8"/>
-    <title>My page number 1 !!!</title>
+    <title>Ma page n&#xB0;1</title>
   </head>
   <body>
     <header>
-      <h1>My page number 1 !!!</h1>
+      <h1>Ma page n&#xB0;1</h1>
     </header>
-    <main><h1>My section Title</h1><p title="My paragraph 1 title">My paragraph's text number 1</p><br/>My paragraph's text number 2</main>
+    <main>
+      <h1>Titre de ma section</h1>
+      <p title="Titre de mon paragraphe 1">Texte 1 de mon paragraphe 1<br/>Texte 2 de mon paragraphe 1</p>
+    </main>
     <footer>
-      <p>Powered by Lcf.vs</p>
+      <p>Propuls&#xE9; par Lcf.vs</p>
     </footer>
   </body>
 </html>
-
 ```

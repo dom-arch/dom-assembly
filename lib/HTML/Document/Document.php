@@ -135,17 +135,32 @@ namespace DOMAssembly\HTML {
              * @var DOM\Text|DOM\Attribute $item
              */
             while ($item = $items->item($i)) {
-                $assembly = $item->getAssembly();
-                $parent = $assembly->getParent();
-                $locale = ($assembly instanceof HrefAttr && $parent->get(HrefLangAttr::NAME))
-                ?: ($assembly instanceof SrcLangAttr && $parent->get(SrcLangAttr::NAME));
+                $current_assembly = $item->getAssembly();
+                $parent = $current_assembly->getParent();
 
-                while (!$locale && $parent) {
-                    $locale = $parent->get(LangAttr::NAME);
-                    $parent = $parent->getParent();
+                $is_lang = $current_assembly instanceof LangAttr
+                    || $current_assembly instanceof HrefLangAttr
+                    || $current_assembly instanceof SrcLangAttr;
+
+                if (!$is_lang) {
+                    $locale = ($current_assembly instanceof HrefAttr && $parent->get(HrefLangAttr::NAME))
+                        ?: ($current_assembly instanceof SrcLangAttr && $parent->get(SrcLangAttr::NAME));
+
+                    while (!$locale && $parent) {
+                        $locale = $parent->get(LangAttr::NAME);
+                        $parent = $parent->getParent();
+                    }
+
+                    if (is_array($current_assembly->getSprintfParams())) {
+                        $translation = $translator->translate($current_assembly, $locale);
+
+                        if ($current_assembly instanceof Text) {
+                            $current_assembly->getNode()->nodeValue = $translation;
+                        } else {
+                            $current_assembly->getNode()->value = $translation;
+                        }
+                    }
                 }
-
-                $assembly->translate($translator, $locale);
 
                 $i += 1;
             }

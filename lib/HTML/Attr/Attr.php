@@ -22,6 +22,9 @@ namespace DOMAssembly\HTML {
          */
         protected $node;
 
+        /**
+         * @var array|null
+         */
         protected $sprintfParams;
 
         /**
