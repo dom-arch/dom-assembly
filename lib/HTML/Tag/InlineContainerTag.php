@@ -10,7 +10,7 @@ namespace DOMAssembly\HTML\Tag {
         implements PhrasingInterface
     {
         /**
-         * @param InlineContainerTag $node
+         * @param PhrasingInterface $node
          * @return $this
          */
         public function append(

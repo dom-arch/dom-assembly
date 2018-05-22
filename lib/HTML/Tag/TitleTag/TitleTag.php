@@ -3,7 +3,7 @@
 namespace DOMAssembly\HTML\Tag {
     
     class TitleTag
-        extends BlockContainerTag
+        extends InlineContainerTag
     {
         const NAME = 'title';
     }

@@ -3,7 +3,7 @@
 namespace DOMAssembly\HTML\Tag {
     
     class H3Tag
-        extends BlockContainerTag
+        extends InlineContainerTag
     {
         const NAME = 'h3';
     }
